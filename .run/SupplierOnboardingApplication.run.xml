@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="SupplierOnboardingApplication" type="SpringBootApplicationConfigurationType"
+                   factoryName="Spring Boot">
+        <module name="SupplierOnboarding.main"/>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="com.taulia.supplier.onboarding.SupplierOnboardingApplication"/>
+        <option name="ACTIVE_PROFILES" value="local"/>
+        <option name="ALTERNATIVE_JRE_PATH"/>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
+</component>

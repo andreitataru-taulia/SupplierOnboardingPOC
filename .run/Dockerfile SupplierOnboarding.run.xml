@@ -1,0 +1,22 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Dockerfile SupplierOnboarding" type="docker-deploy" factoryName="dockerfile"
+                   server-name="Docker">
+        <deployment type="dockerfile">
+            <settings>
+                <option name="imageTag" value="supplieronboarding"/>
+                <option name="buildKitEnabled" value="true"/>
+                <option name="containerName" value="SupplierOnboarding"/>
+                <option name="envVars">
+                    <list>
+                        <DockerEnvVarImpl>
+                            <option name="name" value="SPRING_PROFILES_ACTIVE"/>
+                            <option name="value" value="local"/>
+                        </DockerEnvVarImpl>
+                    </list>
+                </option>
+                <option name="sourceFilePath" value="Dockerfile"/>
+            </settings>
+        </deployment>
+        <method v="2"/>
+    </configuration>
+</component>
