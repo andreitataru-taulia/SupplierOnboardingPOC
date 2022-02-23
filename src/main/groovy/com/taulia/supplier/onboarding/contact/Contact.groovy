@@ -1,4 +1,4 @@
-package com.taulia.supplier.onboarding.supplier
+package com.taulia.supplier.onboarding.contact
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
@@ -13,11 +13,14 @@ import javax.persistence.Version
 @Builder
 @ToString
 @EqualsAndHashCode
-@Table(name = "tab_supplier")
-class Supplier {
+@Table(name = "tab_contact")
+class Contact {
     @Id
     private UUID id
-    private String name
+    private String email
+    private String phoneNumber
+    private String faxNUmber
+    private String contactMethod //TODO make an enum here
 
     @Version
     private long version

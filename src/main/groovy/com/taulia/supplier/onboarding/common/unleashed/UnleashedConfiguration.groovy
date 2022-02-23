@@ -13,11 +13,10 @@ import org.springframework.context.annotation.Configuration
 class UnleashedConfiguration {
 
     @Bean
-    UnleashConfig unleashConfig(
-            @Value("\${unleash.appName}") String appName,
-            @Value("\${unleash.instanceId}") String instanceId,
-            @Value("\${unleash.apiUrl}") String apiUrl,
-            @Value("\${unleash.clientSecret}") String clientSecret) {
+    UnleashConfig unleashConfig(@Value("\${unleash.appName}") String appName,
+                                @Value("\${unleash.instanceId}") String instanceId,
+                                @Value("\${unleash.apiUrl}") String apiUrl,
+                                @Value("\${unleash.clientSecret}") String clientSecret) {
         return UnleashConfig.builder()
                 .appName(appName)
                 .instanceId(instanceId)
@@ -26,12 +25,12 @@ class UnleashedConfiguration {
                 .build()
     }
 
-//    @Bean
+    @Bean
     Unleash unleash(UnleashConfig unleashConfig) {
         var unleash = new DefaultUnleash(unleashConfig)
         unleash.more()
                 .evaluateAllToggles()
-                .forEach(evaluatedToggle -> log.debug("UNLEASHED found toggle {} variant {} with status {}", evaluatedToggle.getName(), evaluatedToggle.getVariant(), evaluatedToggle.isEnabled()))
+                .each { log.debug("UNLEASHED found toggle {} variant {} with status {}", it.getName(), it.getVariant(), it.isEnabled()) }
         return unleash
     }
 }

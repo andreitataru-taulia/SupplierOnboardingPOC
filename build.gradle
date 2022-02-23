@@ -50,6 +50,9 @@ dependencies {
     implementation "org.flywaydb:flyway-core"
 
     compileOnly "org.projectlombok:lombok"
+//    compileOnly "no.finn.unleash:unleash-client-java:${unleash}:sources"
+//    compileOnly "no.finn.unleash:unleash-client-java:${unleash}:javadoc"
+// we could get sources and javadoc like this but really?
 
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 

@@ -1,4 +1,4 @@
-package com.taulia.supplier.onboarding.supplier
+package com.taulia.supplier.onboarding.account
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
@@ -13,11 +13,15 @@ import javax.persistence.Version
 @Builder
 @ToString
 @EqualsAndHashCode
-@Table(name = "tab_supplier")
-class Supplier {
+@Table(name = "tab_account")
+class Account {
     @Id
     private UUID id
     private String name
+    private String number
+    private String ibanNumber
+    private String sortCode
+    private String swiftCode
 
     @Version
     private long version
