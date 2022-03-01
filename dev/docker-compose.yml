@@ -27,10 +27,24 @@ services:
     image: arm64v8/elasticsearch:8.0.0
     ports:
       - '9200:9200'
+      - '9300:9300'
     networks:
       - protal-net
     environment:
       - discovery.type=single-node
+      - xpack.security.enabled=false
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.4.0
+    networks:
+      - protal-net
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - '5601:5601'
+    depends_on:
+      - elasticsearch
 
   zookeeper:
     image: arm64v8/zookeeper:3.7.0
