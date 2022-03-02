@@ -23,6 +23,34 @@ services:
       retries: 5
       start_period: 10s
 
+  cassandra:
+    image: arm64v8/cassandra:4.0.3
+    ports:
+      - '9042:9042'
+    networks:
+      - protal-net
+    healthcheck:
+      test: [ "CMD", "cqlsh", "-e", "describe keyspaces" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  cassandra-load-keyspace:
+    image: arm64v8/cassandra:4.0.3
+    networks:
+      - protal-net
+    depends_on:
+      - cassandra
+    volumes:
+      - ./casandra/cassandra_schema.cql:/schema.cql
+    command: /bin/bash -c "sleep 60 && echo loading cassandra keyspace && cqlsh cassandra -f /schema.cql"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
   elasticsearch:
     image: arm64v8/elasticsearch:8.0.0
     ports:
