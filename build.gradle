@@ -54,6 +54,8 @@ dependencies {
     implementation "no.finn.unleash:unleash-client-java:${unleash}"
     implementation "org.flywaydb:flyway-core"
 
+    implementation 'com.github.saasquatch:json-schema-inferrer:0.1.4'
+
     compileOnly "org.projectlombok:lombok"
 //    compileOnly "no.finn.unleash:unleash-client-java:${unleash}:sources"
 //    compileOnly "no.finn.unleash:unleash-client-java:${unleash}:javadoc"
@@ -96,6 +98,10 @@ tasks.withType(JavaCompile).configureEach {
 
 jar {
     enabled = false
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
 }
 
 //compileGroovy.groovyOptions.javaAnnotationProcessing = true
