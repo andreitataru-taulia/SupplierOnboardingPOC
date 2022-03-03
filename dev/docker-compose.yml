@@ -123,6 +123,24 @@ services:
       retries: 5
       start_period: 15s
 
+  redis:
+    image: arm64v8/redis:7.0-rc-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - protal-net
+
+  mongo:
+    image: arm64v8/mongo:5
+    ports:
+      - "27017:27017"
+    networks:
+      - protal-net
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: admin
+
 
 networks:
   protal-net:
