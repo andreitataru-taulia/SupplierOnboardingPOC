@@ -12,9 +12,9 @@ import org.springframework.data.annotation.Id
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Supplier {
     @Id
-    private UUID id
-    private String type
-    private Map<String, Object> items
-    private Map<String, Object> properties
-    private List<Object> required
+    UUID id
+    String type
+    Map<String, Object> items
+    Map<String, Object> properties
+    List<Object> required
 }

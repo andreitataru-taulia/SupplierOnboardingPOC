@@ -1,15 +1,20 @@
 package com.taulia.supplier.onboarding.mongo.supplier
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import lombok.RequiredArgsConstructor
+import groovy.transform.Canonical
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
-@RequiredArgsConstructor
+@Canonical
 class SupplierService {
+
+    @Autowired
     private SupplierRepository supplierRepository
+
+    @Autowired
     private ObjectMapper objectMapper
 
     Page<Supplier> getAllSuppliersPaginated(Pageable pageable) {
@@ -22,7 +27,7 @@ class SupplierService {
                 "                \"type\": \"boolean\"\n" +
                 "            },\n" +
                 "            \"xyz\": {\n" +
-                "                \"$ref\": \"#/definitions/\"\n" +
+                "                \"\$ref\": \"#/definitions/\"\n" +
                 "            },\n" +
                 "            \"asd\": {\n" +
                 "                \"type\": \"null\"\n" +
@@ -36,7 +41,8 @@ class SupplierService {
                 "}";
 
 
-        Supplier supplier = objectMapper.readValue(jsonString2, Supplier.class);
+        Supplier supplier = objectMapper.readValue(jsonString2, Supplier.class)
+        supplier.id = UUID.randomUUID()
         supplierRepository.save(supplier)
         return supplierRepository.findAll(pageable)
     }
