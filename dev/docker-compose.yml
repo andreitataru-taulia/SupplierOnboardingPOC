@@ -23,6 +23,20 @@ services:
       retries: 5
       start_period: 10s
 
+  mariadb:
+    image: arm64v8/mariadb:10
+    volumes:
+      - ./mariadb/user_schema_init.sql:/docker-entrypoint-initdb.d/user_schema_init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - protal-net
+    environment:
+      - MARIADB_USER=example-user
+      - MARIADB_PASSWORD=my_cool_secret
+      - MARIADB_ROOT_PASSWORD=my-secret-pw
+      - MARIADB_DATABASE=testdb
+
   cassandra:
     image: arm64v8/cassandra:4.0.3
     ports:
