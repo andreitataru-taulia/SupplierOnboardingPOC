@@ -34,8 +34,9 @@ services:
     environment:
       - MARIADB_USER=example-user
       - MARIADB_PASSWORD=my_cool_secret
-      - MARIADB_ROOT_PASSWORD=my-secret-pw
-      - MARIADB_DATABASE=testdb
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes
+      #      - MARIADB_ROOT_PASSWORD=my-secret-pw
+      - MARIADB_DATABASE=taulia
 
   cassandra:
     image: arm64v8/cassandra:4.0.3
