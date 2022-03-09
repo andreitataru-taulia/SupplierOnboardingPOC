@@ -73,6 +73,7 @@ components:
       type: apiKey
       in: header
       name: x-tau-rest-apikey
+
   schemas:
     Supplier:
       type: object
@@ -80,13 +81,23 @@ components:
         id:
           type: string
           example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-        #          format: uuid
         legalEntity:
           $ref: '#/components/schemas/LegalEntity'
-        officer:
-          $ref: '#/components/schemas/Contact'
         annualRevenue:
           $ref: '#/components/schemas/MonetaryValue'
+        clasification:
+          $ref: '#/components/schemas/Classification'
+        contacts:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Contact'
+              - $ref: '#/components/schemas/Officer'
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+
     LegalEntity:
       type: object
       properties:
@@ -106,25 +117,74 @@ components:
         jurisdiction:
           $ref: '#/components/schemas/Jurisdiction'
         taxId:
-          type: number
-          format: double
+          type: string
           example: 123456789
-    Contact:
+
+    Person:
       type: object
+      discriminator:
+        propertyName: personType
+        mapping:
+          officer: '#/components/schemas/Officer'
+          contact: '#/components/schemas/Contact'
       properties:
+        id:
+          type: string
+          format: uuid
         firstName:
           type: string
           example: Andrei
         lastName:
           type: string
           example: Tataru
+        personType:
+          type: string
+          example: One of Officer, Contact
+      required:
+        - personType
+
+    Officer:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Person'
+      properties:
         address:
           $ref: '#/components/schemas/Address'
-        role:
+
+    Contact:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Person'
+      properties:
+        phone:
           type: string
-          enum:
-            - CEO
-          default: CEO
+          example: 07600000
+        email:
+          type: string
+          format: email
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Incumbency Certificate
+        fileName:
+          type: string
+          example: inbumb_cert.pdf
+        fileSize:
+          type: number
+          format: double
+          example: 3.83
+          description: Size of the file in KB
+        createdDate:
+          type: string
+          format: date-time
+          example: '2022-03-09T22:11:37.311Z'
+
     Jurisdiction:
       type: object
       properties:
@@ -155,6 +215,24 @@ components:
           type: number
           format: double
           example: 21013.34
+    Choice:
+      type: string
+      enum:
+        - 'NO'
+        - 'YES'
+        - I_DO_NOT_KNOW
+    Classification:
+      type: object
+      properties:
+        ownerByMinority:
+          $ref: '#/components/schemas/Choice'
+        ownedByWomen:
+          $ref: '#/components/schemas/Choice'
+        smallOrMedium:
+          $ref: '#/components/schemas/Choice'
+        environmentalSocialGovernanceRated:
+          $ref: '#/components/schemas/Choice'
+
   responses:
     UnauthorizedError:
       description: API key is missing or invalid
