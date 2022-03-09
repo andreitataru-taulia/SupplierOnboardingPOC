@@ -10,11 +10,15 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://supplier-onboarding
+security:
+  - apiKey: [ ]
 paths:
-  /api/v0/suppliers/{supplierId}:
+  /api/v0.1/suppliers/{supplierId}:
     get:
       tags:
         - supplier
+      security:
+        - ApiKeyAuth: [ ]
       summary: Retrieves the Supplier representation for FE based on its id
       description: Retrieves Supplier representation for FE to be used in the onboarding process based on its id in order to prepopulate form fields
       operationId: getLegalEntity
@@ -28,24 +32,16 @@ paths:
             format: uuid
       responses:
         200:
-          description: Supplier representation for FE
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Supplier'
-
+          $ref: '#/components/responses/SupplierOk'
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
         404:
-          description: Supplier not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+          $ref: "#/components/responses/SupplierNotFound"
     post:
       tags:
         - supplier
+      security:
+        - ApiKeyAuth: [ ]
       summary: Updates the Supplier based on its id
       description: Updates Supplier data used in the onboarding process based on the FE posted data and returns the updated resource representation
       operationId: updateLegalEntity
@@ -65,23 +61,18 @@ paths:
       #        required: true
       responses:
         200:
-          description: Supplier representation for FE
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Supplier'
-
+          $ref: '#/components/responses/SupplierOk'
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
         404:
-          description: Supplier not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+          $ref: "#/components/responses/SupplierNotFound"
 
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-tau-rest-apikey
   schemas:
     Supplier:
       type: object
@@ -92,7 +83,7 @@ components:
         legalEntity:
           $ref: '#/components/schemas/LegalEntity'
         officer:
-          $ref: '#/components/schemas/Officer'
+          $ref: '#/components/schemas/Contact'
         annualRevenue:
           $ref: '#/components/schemas/MonetaryValue'
     LegalEntity:
@@ -117,7 +108,7 @@ components:
           type: number
           format: double
           example: 123456789
-    Officer:
+    Contact:
       type: object
       properties:
         firstName:
@@ -163,3 +154,25 @@ components:
           type: number
           format: double
           example: 21013.34
+  responses:
+    UnauthorizedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+    SupplierNotFound:
+      description: Supplier not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    SupplierOk:
+      description: Supplier representation for FE
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Supplier'
