@@ -1,0 +1,158 @@
+openapi: 3.0.3
+info:
+  title: Supplier Onboarding
+  description: This is an open API documentation of the Supplier Onboarding BFF available APIs
+  version: 0.0.1
+  contact:
+    email: supplieronboarding@taulia.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://supplier-onboarding
+paths:
+  /api/v0/suppliers/{supplierId}:
+    get:
+      tags:
+        - supplier
+      summary: Retrieves the Supplier representation for FE based on its id
+      description: Retrieves Supplier representation for FE to be used in the onboarding process based on its id in order to prepopulate form fields
+      operationId: getLegalEntity
+      parameters:
+        - in: path
+          name: supplierId
+          description: Id of the Supplier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Supplier representation for FE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+
+        404:
+          description: Supplier not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      tags:
+        - supplier
+      summary: Updates the Supplier based on its id
+      description: Updates Supplier data used in the onboarding process based on the FE posted data
+      operationId: updateLegalEntity
+      parameters:
+        - in: path
+          name: supplierId
+          description: Id of the Supplier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+      responses:
+        200:
+          description: Supplier representation for FE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+
+        404:
+          description: Supplier not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+components:
+  schemas:
+    Supplier:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        legalEntity:
+          $ref: '#/components/schemas/LegalEntity'
+        officer:
+          $ref: '#/components/schemas/Officer'
+        annualRevenue:
+          $ref: '#/components/schemas/MonetaryValue'
+    LegalEntity:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Taulia, Inc
+        tradeNames:
+          type: string
+          example: Taulia
+        businessType:
+          type: string
+          enum:
+            - Corporation
+            - Business
+            - Other
+          default: Corporation
+        countryCode:
+          type: string
+          example: DE
+        regionCode:
+          type: string
+          example: MUN
+        taxId:
+          type: number
+          format: double
+          example: 123456789
+    Officer:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Andrei
+        lastName:
+          type: string
+          example: Tataru
+        address:
+          type: string
+          example: Str Stefan, ap 99, Brasov
+        countryCode:
+          type: string
+          example: DE
+        regionCode:
+          type: string
+          example: MUN
+        role:
+          type: string
+          enum:
+            - CEO
+          default: CEO
+    MonetaryValue:
+      type: object
+      properties:
+        curencyCode:
+          type: string
+          enum:
+            - USD
+            - EUR
+          example: EUR
+        value:
+          type: number
+          format: double
+          example: 21013.34
