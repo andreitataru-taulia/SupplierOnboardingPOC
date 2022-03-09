@@ -47,7 +47,7 @@ paths:
       tags:
         - supplier
       summary: Updates the Supplier based on its id
-      description: Updates Supplier data used in the onboarding process based on the FE posted data
+      description: Updates Supplier data used in the onboarding process based on the FE posted data and returns the updated resource representation
       operationId: updateLegalEntity
       parameters:
         - in: path
@@ -62,6 +62,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Supplier'
+      #        required: true
       responses:
         200:
           description: Supplier representation for FE
@@ -110,12 +111,8 @@ components:
             - Business
             - Other
           default: Corporation
-        countryCode:
-          type: string
-          example: DE
-        regionCode:
-          type: string
-          example: MUN
+        jurisdiction:
+          $ref: '#/components/schemas/Jurisdiction'
         taxId:
           type: number
           format: double
@@ -130,19 +127,29 @@ components:
           type: string
           example: Tataru
         address:
+          $ref: '#/components/schemas/Address'
+        role:
           type: string
-          example: Str Stefan, ap 99, Brasov
+          enum:
+            - CEO
+          default: CEO
+    Jurisdiction:
+      type: object
+      properties:
         countryCode:
           type: string
           example: DE
         regionCode:
           type: string
           example: MUN
-        role:
+    Address:
+      type: object
+      properties:
+        addressLine:
           type: string
-          enum:
-            - CEO
-          default: CEO
+          example: Str Stefan, ap 99, Brasov
+        jurisdiction:
+          $ref: '#/components/schemas/Jurisdiction'
     MonetaryValue:
       type: object
       properties:
