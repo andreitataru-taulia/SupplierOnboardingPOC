@@ -154,6 +154,14 @@ services:
       retries: 5
       start_period: 15s
 
+  activemq:
+    image: symptoma/activemq:5.16.4
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+    networks:
+      - protal-net
+
   redis:
     image: arm64v8/redis:7.0-rc-alpine
     ports:
