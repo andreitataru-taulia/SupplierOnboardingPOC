@@ -81,24 +81,20 @@ components:
         id:
           type: string
           example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-        legalEntity:
-          $ref: '#/components/schemas/LegalEntity'
-        annualRevenue:
-          $ref: '#/components/schemas/MonetaryValue'
-        clasification:
-          $ref: '#/components/schemas/Classification'
-        contacts:
+        business:
+          $ref: '#/components/schemas/Business'
+        address:
+          $ref: '#/components/schemas/Address'
+        autorisedSigners:
           type: array
           items:
-            anyOf:
-              - $ref: '#/components/schemas/Contact'
-              - $ref: '#/components/schemas/Officer'
+            $ref: '#/components/schemas/User'
         documents:
           type: array
           items:
             $ref: '#/components/schemas/Document'
 
-    LegalEntity:
+    Business:
       type: object
       properties:
         name:
@@ -107,61 +103,45 @@ components:
         tradeNames:
           type: string
           example: Taulia
-        businessType:
+        type:
           type: string
           enum:
             - Corporation
             - Business
-            - Other
+            - Other?
           default: Corporation
+        priorNameOrLocation:
+          type: string
+          example: Former Taulia
+        products:
+          type: string
+          example: supplier financing
         jurisdiction:
           $ref: '#/components/schemas/Jurisdiction'
         taxId:
-          type: string
-          example: 123456789
+          $ref: '#/components/schemas/TaxId'
+        accuracyConfirmed:
+          type: boolean
+          default: false
 
-    Person:
+    User:
       type: object
-      discriminator:
-        propertyName: personType
-        mapping:
-          officer: '#/components/schemas/Officer'
-          contact: '#/components/schemas/Contact'
       properties:
-        id:
+        email:
           type: string
-          format: uuid
+          example: andrei.tataru@taulia.com
         firstName:
           type: string
           example: Andrei
         lastName:
           type: string
           example: Tataru
-        personType:
+        title:
           type: string
-          example: One of Officer, Contact
-      required:
-        - personType
-
-    Officer:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/Person'
-      properties:
-        address:
-          $ref: '#/components/schemas/Address'
-
-    Contact:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/Person'
-      properties:
-        phone:
-          type: string
-          example: 07600000
-        email:
-          type: string
-          format: email
+          enum:
+            - Finance Director
+            - other?
+          default: Finance Director
 
     Document:
       type: object
@@ -194,44 +174,37 @@ components:
         regionCode:
           type: string
           example: MUN
+
     Address:
       type: object
       properties:
-        addressLine:
-          type: string
-          example: Str Stefan, ap 99, Brasov
         jurisdiction:
           $ref: '#/components/schemas/Jurisdiction'
-    MonetaryValue:
-      type: object
-      properties:
-        curencyCode:
+        adresslines:
+          type: array
+          items:
+            type: string
+        city:
           type: string
           enum:
-            - USD
-            - EUR
-          example: EUR
-        value:
-          type: number
-          format: double
-          example: 21013.34
-    Choice:
-      type: string
-      enum:
-        - 'NO'
-        - 'YES'
-        - I_DO_NOT_KNOW
-    Classification:
+            - MUN
+            - other?
+          default: MUN
+        zipCode:
+          type: string
+
+    TaxId:
       type: object
       properties:
-        ownerByMinority:
-          $ref: '#/components/schemas/Choice'
-        ownedByWomen:
-          $ref: '#/components/schemas/Choice'
-        smallOrMedium:
-          $ref: '#/components/schemas/Choice'
-        environmentalSocialGovernanceRated:
-          $ref: '#/components/schemas/Choice'
+        taxIdtype:
+          type: string
+          enum:
+            - TIN
+            - other?
+          default: TIN
+        taxIdNumber:
+          type: string
+          example: 123456789
 
   responses:
     UnauthorizedError:
