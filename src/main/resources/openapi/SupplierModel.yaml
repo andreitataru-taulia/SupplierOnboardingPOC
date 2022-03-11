@@ -1,0 +1,182 @@
+openapi: 3.0.3
+info:
+  title: Supplier Model
+  description: This is an open API documentation of the Supplier Model
+  version: 0.0.1
+  contact:
+    email: supplieronboarding@taulia.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://supplier-onboarding
+paths:
+  /api/v0/suppliers/{supplierId}:
+    get:
+      tags:
+        - supplier
+      summary: Retrieves the Supplier data model representation based on its id
+      description: Retrieves Supplier data model
+      operationId: getLegalEntity
+      parameters:
+        - in: path
+          name: supplierId
+          description: Id of the Supplier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Supplier representation for FE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+
+        404:
+          description: Supplier not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+components:
+  schemas:
+    Supplier:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        registration:
+          $ref: '#/components/schemas/Registration'
+        companyInformation:
+          $ref: '#/components/schemas/CompanyInformation'
+        contactInformation:
+          $ref: '#/components/schemas/ContactInformation'
+        uploadCompanyDocuments:
+          $ref: '#/components/schemas/UploadCompanyDocuments'
+
+
+    Registration:
+      type: object
+      properties:
+        programName:
+          type: string
+        supplierCompanyLegalName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        title:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        faxNumber:
+          type: string
+    CompanyInformation:
+      type: object
+      properties:
+        country:
+          type: string
+        state:
+          type: string
+        supplierCompanyLegalName:
+          type: string
+        priorNamesOrPlaces:
+          type: string
+        tradeBussiness:
+          type: string
+        socialCreditTaxIdNumber:
+          type: string
+        organizationNumber:
+          type: string
+        invoiceCurrency:
+          type: string
+        estimatedAnnualSalesCurrency:
+          type: string
+        estimatedAnnualSalesVolume:
+          type: string
+        currentPaymentTerm:
+          type: string
+        newPaymentTerm:
+          type: string
+        sendSCFPayments:
+          type: boolean
+        isSecurityInterest:
+          type: boolean
+        lienHolderName:
+          type: string
+        isSplitPaymentMechanismInPoland:
+          type: string
+        activeVATPayerInPoland:
+          type: string
+        bankAccountNumberReportedToPolishTax:
+          type: string
+        isObligatorySplitPaymentMechanism:
+          type: string
+        addressForLegalNotices:
+          $ref: '#/components/schemas/AddressForLegalNotices'
+    AddressForLegalNotices:
+      type: object
+      properties:
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        addressLine3:
+          type: string
+        country:
+          type: string
+        state:
+          type: string
+        province:
+          type: string
+        city:
+          type: string
+        zipCode:
+          type: string
+        postCode:
+          type: string
+        attentionName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        faxNumber:
+          type: string
+    ContactInformation:
+      type: object
+      properties:
+        contactRole:
+          type: string
+        authorizedSigner:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        title:
+          type: string
+        emailAddress:
+          type: string
+        phoneNumber:
+          type: string
+        faxNumber:
+          type: string
+        discountElection:
+          type: string
+    UploadCompanyDocuments:
+      type:
+        object
+      properties:
+        discountElection:
+          type: string
