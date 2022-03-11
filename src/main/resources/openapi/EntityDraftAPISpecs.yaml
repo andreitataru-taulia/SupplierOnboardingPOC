@@ -11,7 +11,7 @@ info:
 servers:
   - url: https://supplier-onboarding
 security:
-  - apiKey: [ ]
+  - ApiKeyAuth: [ ]
 paths:
   /api/v0.1/suppliers/{supplierId}:
     get:

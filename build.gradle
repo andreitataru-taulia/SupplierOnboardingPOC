@@ -18,8 +18,9 @@ repositories {
     mavenCentral()
 }
 
+
 ext {
-    set("groovy.version", "3.0.6")
+    set("groovy.version", "3.0.10")
     mapstruct = "1.5.0.Beta2"
     mapstructLombok = "0.2.0"
     openapi = "1.6.6"
