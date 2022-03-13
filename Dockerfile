@@ -1,5 +1,5 @@
 # On mac M1 the platform is linux/amd64
-FROM arm64v8/gradle:7.4-jdk11 as build
+FROM arm64v8/gradle:7.4-jdk17 as build
 ARG WORK_DIR=/workspace/bff
 WORKDIR ${WORK_DIR}
 VOLUME /tmp
