@@ -76,4 +76,8 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+jar {
+    enabled = false
+}
+
 compileGroovy.groovyOptions.javaAnnotationProcessing = true
