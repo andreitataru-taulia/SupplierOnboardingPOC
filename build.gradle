@@ -14,15 +14,14 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
-
 repositories {
     mavenCentral()
 }
 
-
 ext {
     set("groovy.version", "3.0.10")
-    mapstruct = "1.4.2.Final"
+    set('testcontainersVersion', "1.16.2")
+    mapstruct = "1.5.0.Beta2"
     mapstructLombok = "0.2.0"
     openapi = "1.6.6"
     logback = "0.1.5"
@@ -30,68 +29,51 @@ ext {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-    implementation "org.springframework.boot:spring-boot-starter-hateoas"
-    implementation "org.springframework.boot:spring-boot-starter-validation"
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-webflux"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.apache.kafka:kafka-streams'
+    implementation 'org.liquibase:liquibase-core'
     implementation "org.codehaus.groovy:groovy"
+
+    implementation "org.springdoc:springdoc-openapi-groovy:${openapi}"
     implementation "org.springdoc:springdoc-openapi-ui:${openapi}"
     implementation "org.springdoc:springdoc-openapi-webmvc-core:${openapi}"
     implementation "org.springdoc:springdoc-openapi-hateoas:${openapi}"
-    implementation "org.springdoc:springdoc-openapi-groovy:${openapi}"
-    implementation "org.springdoc:springdoc-openapi-groovy:${openapi}"
     implementation "ch.qos.logback.contrib:logback-json-classic:${logback}"
     implementation "ch.qos.logback.contrib:logback-jackson:${logback}"
     implementation "net.logstash.logback:logstash-logback-encoder:${logbackEncoder}"
     implementation "org.mapstruct:mapstruct:${mapstruct}"
+
     implementation "org.projectlombok:lombok-mapstruct-binding:${mapstructLombok}"
-    implementation "org.liquibase:liquibase-core"
 
-    implementation 'com.github.saasquatch:json-schema-inferrer:0.1.4'
 
-    compileOnly "org.projectlombok:lombok"
-
-    developmentOnly "org.springframework.boot:spring-boot-devtools"
-
-    runtimeOnly "io.micrometer:micrometer-registry-prometheus"
-    runtimeOnly "mysql:mysql-connector-java"
-    runtimeOnly "io.netty:netty-resolver-dns-native-macos:4.1.74.Final:osx-aarch_64"
-
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-    annotationProcessor "org.projectlombok:lombok"
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly 'mysql:mysql-connector-java'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct}"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct}"
-
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testImplementation 'org.testng:testng:7.5', "org.easytesting:fest-assert:1.4"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:kafka'
+    testImplementation 'org.testcontainers:mysql'
 }
 
-//tasks.withType(JavaCompile) {
-//    options.compilerArgs = [
-//            "-Amapstruct.suppressGeneratorTimestamp=true"
-//    ]
-//}
-
-tasks.withType(JavaCompile).configureEach {
-    options.fork = true
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+    }
 }
 
-tasks.named("test") {
+tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.incremental = true
-}
-
-jar {
-    enabled = false
-}
-
-repositories {
-    maven { url 'https://jitpack.io' }
-}
-
-//compileGroovy.groovyOptions.javaAnnotationProcessing = true
+compileGroovy.groovyOptions.javaAnnotationProcessing = true
