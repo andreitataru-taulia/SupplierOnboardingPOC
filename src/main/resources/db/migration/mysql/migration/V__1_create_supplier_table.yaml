@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Tataru Andrei-Emanuel
+      comment: "DDL for tab_supplier"
+      #  context: dev
+      changes:
+        - createTable:
+            tableName: tab_supplier
+            remarks: Table holds Supplier information
+            columns:
+              - column:
+                  name: id
+                  type: BINARY(16)
+                  defaultValueComputed: (UUID_TO_BIN(UUID()))
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(50)

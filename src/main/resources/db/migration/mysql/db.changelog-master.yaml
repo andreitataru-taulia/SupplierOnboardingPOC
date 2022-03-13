@@ -1,0 +1,8 @@
+databaseChangeLog:
+  #  - changeSet:
+  #    id: 1
+  #    author: Tataru Andrei-Emanuel
+  #    comment: "Master Change Log"
+  - includeAll:
+      relativeToChangelogFile: true
+      path: /migration

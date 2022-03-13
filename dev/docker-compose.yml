@@ -1,27 +1,6 @@
-version: '3.4'
+version: '3.9'
 
 services:
-
-  postgres:
-    image: arm64v8/postgres:14-alpine
-    volumes:
-      - ./postgres/user_schema_init.sql:/docker-entrypoint-initdb.d/user_schema_init.sql
-    #      - ./postgres/postgresql.conf:/etc/postgresql.conf
-    #    command: postgres -c config_file=/etc/postgresql.conf
-    environment:
-      - POSTGRES_DB=backend
-      - POSTGRES_USER=backend
-      - POSTGRES_PASSWORD=password
-    ports:
-      - "5432:5432"
-    networks:
-      - protal-net
-    healthcheck:
-      test: [ "CMD", "pg_isready", "--username=backend", "--host=127.0.0.1", "--port=5432" ]
-      interval: 2s
-      timeout: 1m
-      retries: 5
-      start_period: 10s
 
   mysql:
     image: arm64v8/mysql:oracle
@@ -33,170 +12,15 @@ services:
     networks:
       - protal-net
     environment:
-      - MYSQL_USER=example-user
-      - MYSQL_PASSWORD=my_cool_secret
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      #      - MYSQL_ROOT_PASSWORD=my-secret-pw
-      - MYSQL_DATABASE=taulia
-
-  mysql5:
-    platform: linux/amd64
-    image: mysql:5.6
-    command: --default-authentication-plugin=mysql_native_password
-    volumes:
-      - ./mysql/user_schema_init.sql:/docker-entrypoint-initdb.d/user_schema_init.sql
-    ports:
-      - "3306:3306"
-    networks:
-      - protal-net
-    environment:
-      - MYSQL_USER=example-user
-      - MYSQL_PASSWORD=my_cool_secret
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      #      - MYSQL_ROOT_PASSWORD=my-secret-pw
-      - MYSQL_DATABASE=taulia
-
-  mariadb:
-    image: arm64v8/mariadb:10
-    volumes:
-      - ./mariadb/user_schema_init.sql:/docker-entrypoint-initdb.d/user_schema_init.sql
-    ports:
-      - "3306:3306"
-    networks:
-      - protal-net
-    environment:
-      - MARIADB_USER=example-user
-      - MARIADB_PASSWORD=my_cool_secret
-      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes
-      #      - MARIADB_ROOT_PASSWORD=my-secret-pw
-      - MARIADB_DATABASE=taulia
-
-  cassandra:
-    image: arm64v8/cassandra:4.0.3
-    ports:
-      - '9042:9042'
-    networks:
-      - protal-net
+      - MYSQL_USER=backend
+      - MYSQL_PASSWORD=password
+      #      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=backend
     healthcheck:
-      test: [ "CMD", "cqlsh", "-e", "describe keyspaces" ]
-      interval: 5s
-      timeout: 5s
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
       retries: 10
-
-  cassandra-load-keyspace:
-    image: arm64v8/cassandra:4.0.3
-    networks:
-      - protal-net
-    depends_on:
-      - cassandra
-    volumes:
-      - ./casandra/cassandra_schema.cql:/schema.cql
-    command: /bin/bash -c "sleep 60 && echo loading cassandra keyspace && cqlsh cassandra -f /schema.cql"
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-
-  elasticsearch:
-    image: arm64v8/elasticsearch:8.0.0
-    ports:
-      - '9200:9200'
-      - '9300:9300'
-    networks:
-      - protal-net
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-
-  kibana:
-    container_name: kibana
-    image: docker.elastic.co/kibana/kibana:8.0.0
-    networks:
-      - protal-net
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    ports:
-      - '5601:5601'
-    depends_on:
-      - elasticsearch
-
-  zookeeper:
-    image: arm64v8/zookeeper:3.7.0
-    ports:
-      - '2181:2181'
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
-    networks:
-      - protal-net
-
-  kafka:
-    image: bitnami/kafka:2.6.0
-    ports:
-      - '9092:9092'
-    environment:
-      - KAFKA_BROKER_ID=1
-      - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
-    depends_on:
-      - zookeeper
-    networks:
-      - protal-net
-
-  unleash:
-    image: unleashorg/unleash-server:4.7.2
-    ports:
-      - "4242:4242"
-    environment:
-      - DATABASE_HOST=postgres
-      - DATABASE_NAME=backend
-      - DATABASE_SCHEMA=unleash
-      - DATABASE_USERNAME=backend
-      - DATABASE_PASSWORD=password
-      - DATABASE_SSL=false
-      - AUTH_USERNAME=admin
-      - AUTH_PASSWORD=unleash4all
-    depends_on:
-      - postgres
-    networks:
-      - protal-net
-    healthcheck:
-      test: [ "CMD", "nc",  "-z", "db", "5432" ]
-      interval: 1s
-      timeout: 1m
-      retries: 5
-      start_period: 15s
-
-  activemq:
-    image: symptoma/activemq:5.16.4
-    ports:
-      - "61616:61616"
-      - "8161:8161"
-    networks:
-      - protal-net
-
-  redis:
-    image: arm64v8/redis:7.0-rc-alpine
-    ports:
-      - "6379:6379"
-    networks:
-      - protal-net
-
-  mongo:
-    image: arm64v8/mongo:5
-    ports:
-      - "27017:27017"
-    networks:
-      - protal-net
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: admin
-
 
 networks:
   protal-net:
