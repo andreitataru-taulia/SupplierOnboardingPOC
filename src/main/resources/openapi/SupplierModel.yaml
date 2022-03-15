@@ -137,7 +137,9 @@ components:
         averageinvoiceAmountUSD:
           type: string
         companySale:
-          $ref: '#/components/schemas/CompanySale'
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanySale'
     CompanySale:
       type: object
       properties:
