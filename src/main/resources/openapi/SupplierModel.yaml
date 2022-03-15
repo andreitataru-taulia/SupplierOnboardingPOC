@@ -84,6 +84,8 @@ components:
     CompanyInformation:
       type: object
       properties:
+        customerName:
+          type: string
         country:
           type: string
         state:
@@ -94,7 +96,7 @@ components:
           type: string
         tradeBussiness:
           type: string
-        socialCreditTaxIdNumber:
+        taxIdNumber:
           type: string
         organizationNumber:
           type: string
@@ -114,6 +116,8 @@ components:
           type: boolean
         lienHolderName:
           type: string
+        lienHolderAddress:
+          type: string
         isSplitPaymentMechanismInPoland:
           type: string
         activeVATPayerInPoland:
@@ -124,6 +128,23 @@ components:
           type: string
         addressForLegalNotices:
           $ref: '#/components/schemas/AddressForLegalNotices'
+        buyerProducts:
+          type: string
+        consistentSales:
+          type: boolean
+        onTimePayments:
+          type: boolean
+        averageinvoiceAmountUSD:
+          type: string
+        companySale:
+          $ref: '#/components/schemas/CompanySale'
+    CompanySale:
+      type: object
+      properties:
+        name:
+          type: string
+        annualSales:
+          type: string
     AddressForLegalNotices:
       type: object
       properties:
@@ -151,8 +172,6 @@ components:
           type: string
         phoneNumber:
           type: string
-        faxNumber:
-          type: string
     ContactInformation:
       type: object
       properties:
@@ -168,11 +187,11 @@ components:
           type: string
         emailAddress:
           type: string
+        manageAccess:
+          type: string
         phoneNumber:
           type: string
         faxNumber:
-          type: string
-        discountElection:
           type: string
     UploadCompanyDocuments:
       type:
@@ -180,3 +199,6 @@ components:
       properties:
         discountElection:
           type: string
+        authorizedSignerNo:
+          type: string
+
