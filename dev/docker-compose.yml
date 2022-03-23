@@ -72,9 +72,9 @@ services:
       - MARIADB_DATABASE=taulia
 
   cassandra:
-    image: arm64v8/cassandra:4.0.3
+    image: arm64v8/cassandra:3.0
     ports:
-      - '9042:9042'
+      - '9142:9042'
     networks:
       - protal-net
     healthcheck:
@@ -84,7 +84,7 @@ services:
       retries: 10
 
   cassandra-load-keyspace:
-    image: arm64v8/cassandra:4.0.3
+    image: arm64v8/cassandra:3.0
     networks:
       - protal-net
     depends_on:
