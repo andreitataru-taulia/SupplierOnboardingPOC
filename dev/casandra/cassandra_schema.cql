@@ -1,4 +1,9 @@
 DROP
+KEYSPACE IF EXISTS taulia_audit_trail;
+
+CREATE KEYSPACE taulia_audit_trail WITH replication = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+
+DROP
 KEYSPACE IF EXISTS testkeyspace;
 
 CREATE
