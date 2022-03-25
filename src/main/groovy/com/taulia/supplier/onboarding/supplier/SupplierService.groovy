@@ -1,12 +1,15 @@
 package com.taulia.supplier.onboarding.supplier
 
-import groovy.transform.TupleConstructor
+import com.taulia.supplier.onboarding.supplier.model.Supplier
+import lombok.RequiredArgsConstructor
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-@TupleConstructor(includeFields = true, includeProperties = false, force = true)
+@RequiredArgsConstructor
 class SupplierService {
     private final SupplierRepository supplierRepository
 
@@ -14,7 +17,30 @@ class SupplierService {
         return supplierRepository.save(supplier)
     }
 
-    List<Supplier> getAllSuppliers() {
-        return supplierRepository.findAll()
+    Optional<Supplier> update(UUID userId, Supplier supplier) {
+        return supplierRepository
+                .findById(userId)
+                .map(existingSupplier -> merge(existingSupplier, supplier))
+                .map(supplierRepository::save)
+    }
+
+    Optional<Supplier> findById(UUID id) {
+        return supplierRepository.findById(id)
+    }
+
+    Page<Supplier> getAllSuppliersPaginated(Pageable pageable) {
+        return supplierRepository.findAll(pageable)
+    }
+
+    void delete(UUID id) {
+        supplierRepository.findById(id).ifPresent(supplierRepository::delete)
+    }
+
+    private Supplier merge(Supplier existingSupplier, Supplier supplier) {
+        existingSupplier.setBusiness(supplier.getBusiness())
+        existingSupplier.setAddresses(supplier.getAddresses())
+        existingSupplier.setAuthorisedSigners(supplier.getAuthorisedSigners())
+        existingSupplier.setExtraAttributes(supplier.getExtraAttributes())
+        return existingSupplier
     }
 }

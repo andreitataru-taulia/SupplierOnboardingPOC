@@ -35,7 +35,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.apache.kafka:kafka-streams'
     implementation 'org.liquibase:liquibase-core'
     implementation "org.codehaus.groovy:groovy"
 
@@ -43,12 +42,13 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-ui:${openapi}"
     implementation "org.springdoc:springdoc-openapi-webmvc-core:${openapi}"
     implementation "org.springdoc:springdoc-openapi-hateoas:${openapi}"
+    implementation "org.springdoc:springdoc-openapi-security:${openapi}"
     implementation "ch.qos.logback.contrib:logback-json-classic:${logback}"
     implementation "ch.qos.logback.contrib:logback-jackson:${logback}"
     implementation "net.logstash.logback:logstash-logback-encoder:${logbackEncoder}"
     implementation "org.mapstruct:mapstruct:${mapstruct}"
-
     implementation "org.projectlombok:lombok-mapstruct-binding:${mapstructLombok}"
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
 
     compileOnly 'org.projectlombok:lombok'
@@ -62,7 +62,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation 'org.testcontainers:kafka'
     testImplementation 'org.testcontainers:mysql'
 }
 
@@ -72,8 +71,16 @@ dependencyManagement {
     }
 }
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
+
+    // Always run tests, even when nothing changed.
+    dependsOn 'cleanTest'
+
+    // Show test results.
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 jar {
@@ -81,3 +88,9 @@ jar {
 }
 
 compileGroovy.groovyOptions.javaAnnotationProcessing = true
+
+task testReport(type: TestReport) {
+    destinationDirectory = file("$buildDir/reports/allTests")
+    // Include the results from the `test` task in all subprojects
+    reportOn subprojects*.test
+}
