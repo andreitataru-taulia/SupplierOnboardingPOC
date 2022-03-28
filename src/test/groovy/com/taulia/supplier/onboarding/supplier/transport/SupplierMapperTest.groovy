@@ -1,5 +1,11 @@
 //package com.taulia.supplier.onboarding.supplier.transport
 //
+//import com.taulia.supplier.onboarding.address.AddressDto
+//import com.taulia.supplier.onboarding.address.AddressMapper
+//import com.taulia.supplier.onboarding.user.User
+//import com.taulia.supplier.onboarding.address.Address
+//import com.taulia.supplier.onboarding.supplier.model.Business
+//import com.taulia.supplier.onboarding.supplier.model.Supplier
 //import org.junit.jupiter.api.BeforeEach
 //import org.junit.jupiter.api.Test
 //import org.junit.jupiter.api.extension.ExtendWith
@@ -18,18 +24,18 @@
 //
 //@ExtendWith(SpringExtension.class)
 //@ExtendWith(MockitoExtension.class)
-//@SpringBootTest(classes = [BusinessMapperImpl.class, AddressMapperImpl.class])
+//@SpringBootTest(classes = [BusinessMapper.class, AddressMapper.class])
 //class SupplierMapperTest {
 //
-//    @Autowired private BusinessMapperImpl businessMapper;
-//    @Autowired private AddressMapperImpl addressMapper;
+//    @Autowired private BusinessMapperImpl businessMapper
+//    @Autowired private AddressMapperImpl addressMapper
 //
-//    @InjectMocks private SupplierMapperImpl mapper;
+//    @InjectMocks private SupplierMapperImpl mapper
 //
 //    @BeforeEach
-//    public void init() {
-//        ReflectionTestUtils.setField(mapper, "businessMapper", businessMapper);
-////    ReflectionTestUtils.setField(mapper, "addressMapper", addressMapper);
+//    void init() {
+//        ReflectionTestUtils.setField(mapper, "businessMapper", businessMapper)
+////    ReflectionTestUtils.setField(mapper, "addressMapper", addressMapper)
 //    }
 //
 //    @Test
@@ -68,20 +74,20 @@
 //                        .createdDate(Date.from(Instant.now()))
 //                        .lastUpdated(Date.from(Instant.now()))
 //                        .version(0L)
-//                        .build();
+//                        .build()
 //
 //        // when
-//        var mappedSupplierDto = mapper.to(supplier);
+//        var mappedSupplierDto = mapper.to(supplier)
 //
 //        // then
-//        assertEquals(supplier.getId(), mappedSupplierDto.getId());
-//        assertEquals(businessMapper.to(supplier.getBusiness()), mappedSupplierDto.getBusiness());
+//        assertEquals(supplier.getId(), mappedSupplierDto.getId())
+//        assertEquals(businessMapper.to(supplier.getBusiness()), mappedSupplierDto.getBusiness())
 //        assertEquals(
 //                supplier.getAddresses().stream().map(addressMapper::to).collect(Collectors.toSet()),
-//                mappedSupplierDto.getAddresses());
-//        assertEquals(supplier.getAuthorisedSigners(), mappedSupplierDto.getAuthorisedSigners());
-//        assertEquals(supplier.getCreatedDate(), mappedSupplierDto.getCreatedDate());
-//        assertEquals(supplier.getLastUpdated(), mappedSupplierDto.getLastUpdated());
+//                mappedSupplierDto.getAddresses())
+//        assertEquals(supplier.getAuthorisedSigners(), mappedSupplierDto.getAuthorisedSigners())
+//        assertEquals(supplier.getCreatedDate(), mappedSupplierDto.getCreatedDate())
+//        assertEquals(supplier.getLastUpdated(), mappedSupplierDto.getLastUpdated())
 //    }
 //
 //    @Test
@@ -117,19 +123,19 @@
 //                        .authorisedSigners(Set.of(User.builder().email("andrei.tataru@taulia.com").build()))
 //                        .createdDate(Date.from(Instant.now()))
 //                        .lastUpdated(Date.from(Instant.now()))
-//                        .build();
+//                        .build()
 //
 //        // when
-//        var mappedSupplier = mapper.from(supplierDto);
+//        var mappedSupplier = mapper.from(supplierDto)
 //
 //        // then
-//        assertEquals(supplierDto.getId(), mappedSupplier.getId());
-//        assertEquals(businessMapper.from(supplierDto.getBusiness()), mappedSupplier.getBusiness());
+//        assertEquals(supplierDto.getId(), mappedSupplier.getId())
+//        assertEquals(businessMapper.from(supplierDto.getBusiness()), mappedSupplier.getBusiness())
 //        assertEquals(
 //                (supplierDto.getAddresses().stream().map(addressMapper::from).collect(Collectors.toSet())),
-//                mappedSupplier.getAddresses());
-//        assertEquals(supplierDto.getAuthorisedSigners(), mappedSupplier.getAuthorisedSigners());
-//        assertEquals(supplierDto.getCreatedDate(), mappedSupplier.getCreatedDate());
-//        assertEquals(supplierDto.getLastUpdated(), mappedSupplier.getLastUpdated());
+//                mappedSupplier.getAddresses())
+//        assertEquals(supplierDto.getAuthorisedSigners(), mappedSupplier.getAuthorisedSigners())
+//        assertEquals(supplierDto.getCreatedDate(), mappedSupplier.getCreatedDate())
+//        assertEquals(supplierDto.getLastUpdated(), mappedSupplier.getLastUpdated())
 //    }
 //}
