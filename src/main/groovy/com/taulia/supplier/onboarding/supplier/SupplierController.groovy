@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import lombok.RequiredArgsConstructor
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
@@ -21,12 +21,17 @@ import javax.validation.constraints.NotNull
 
 @Validated
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("api/v0/suppliers")
 class SupplierController {
 
     private final SupplierService supplierService
     private final SupplierMapper supplierMapper
+
+    @Autowired
+    SupplierController(SupplierService supplierService, SupplierMapper supplierMapper) {
+        this.supplierService = supplierService
+        this.supplierMapper = supplierMapper
+    }
 
     @Operation(summary = "Create a Supplier")
     @ApiResponses(
@@ -77,7 +82,7 @@ class SupplierController {
                 .flatMap(supplier -> supplierService.update(id, supplier))
                 .map(supplierMapper::to)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build())
+                .orElseGet(() -> ResponseEntity.notFound().build()) as ResponseEntity<SupplierDto>
     }
 
     @GetMapping("{id}")
@@ -86,7 +91,7 @@ class SupplierController {
                 .findById(id)
                 .map(supplierMapper::to)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build())
+                .orElseGet(() -> ResponseEntity.notFound().build()) as ResponseEntity<SupplierDto>
     }
 
     @GetMapping

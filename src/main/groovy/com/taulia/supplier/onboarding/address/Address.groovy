@@ -1,7 +1,8 @@
 package com.taulia.supplier.onboarding.address
 
 import com.taulia.supplier.onboarding.supplier.model.Supplier
-import lombok.*
+import groovy.transform.Canonical
+import groovy.transform.builder.Builder
 import org.hibernate.Hibernate
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.annotation.CreatedDate
@@ -11,11 +12,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import javax.persistence.*
 
 @Entity
-@Getter
-@Setter
 @Builder
-@ToString
-@AllArgsConstructor
+//todo take care on the toString method from Groovy to exclude some fields as without it will break the lazy fetching
+@Canonical
 @Table(name = "tab_address")
 @EntityListeners(AuditingEntityListener.class)
 class Address {
@@ -23,32 +22,31 @@ class Address {
     @GeneratedValue(generator = "uuid2")
     @Column(name = "id", columnDefinition = "BINARY(16)", nullable = false)
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private UUID id
+    UUID id
 
-    private String countryCode
-    private String regionCode
-    private String city
-    private String zipCode
+    String countryCode
+    String regionCode
+    String city
+    String zipCode
 
-    @Builder.Default
     @CollectionTable(name = "tab_address_address_lines",
             joinColumns = @JoinColumn(name = "address_id", columnDefinition = "BINARY(16)"))
     @ElementCollection
-    private Set<String> addressLines = new HashSet<>()
+    Set<String> addressLines = new HashSet<>()
 
     @Version
-    private Long version
+    Long version
 
     @LastModifiedDate
-    private Date lastUpdated
+    Date lastUpdated
 
     @CreatedDate
-    private Date createdDate
+    Date createdDate
 
-    @ToString.Exclude
+//    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", columnDefinition = "BINARY(16)")
-    private Supplier supplier
+    Supplier supplier
 
     @Override
     boolean equals(Object o) {

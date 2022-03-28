@@ -1,7 +1,9 @@
 package com.taulia.supplier.onboarding.user
 
 import com.taulia.supplier.onboarding.supplier.model.Supplier
-import lombok.*
+import groovy.transform.Canonical
+import lombok.Builder
+import lombok.ToString
 import org.hibernate.Hibernate
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -10,11 +12,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import javax.persistence.*
 
 @Entity
-@Getter
-@Setter
 @Builder
-@ToString
-@AllArgsConstructor
+@Canonical
 @Table(name = "tab_users")
 @EntityListeners(AuditingEntityListener.class)
 class User {

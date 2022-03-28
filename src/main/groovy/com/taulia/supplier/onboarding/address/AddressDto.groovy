@@ -1,17 +1,17 @@
 package com.taulia.supplier.onboarding.address
 
-import lombok.Builder
-import lombok.Data
+import groovy.transform.Canonical
+import groovy.transform.builder.Builder
 
-@Data
 @Builder
+@Canonical
 class AddressDto {
-    private UUID id
-    private String countryCode
-    private String regionCode
-    private String city
-    private String zipCode
-    private Set<String> addressLines
-    private Date lastUpdated
-    private Date createdDate
+     UUID id
+     String countryCode
+     String regionCode
+     String city
+     String zipCode
+     Set<String> addressLines
+     Date lastUpdated
+     Date createdDate
 }

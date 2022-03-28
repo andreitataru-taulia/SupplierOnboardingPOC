@@ -3,24 +3,24 @@ package com.taulia.supplier.onboarding.supplier.transport
 import com.taulia.supplier.onboarding.address.AddressDto
 import com.taulia.supplier.onboarding.common.constraint.NotNullMapValue
 import com.taulia.supplier.onboarding.user.User
-import lombok.Builder
-import lombok.Data
+import groovy.transform.Canonical
+import groovy.transform.builder.Builder
 import lombok.EqualsAndHashCode
 import org.springframework.hateoas.RepresentationModel
 
 import javax.validation.Valid
 
-@Data
+@Canonical
 @Builder
 @EqualsAndHashCode(callSuper = true)
 class SupplierDto extends RepresentationModel<SupplierDto> {
-    private UUID id
+    UUID id
     @Valid
-    private BusinessDto business
-    private Set<User> authorisedSigners
-    private Date lastUpdated
-    private Date createdDate
-    private Set<AddressDto> addresses
+    BusinessDto business
+    Set<User> authorisedSigners
+    Date lastUpdated
+    Date createdDate
+    Set<AddressDto> addresses
     @NotNullMapValue
-    private Map<String, Object> extraAttributes
+    Map<String, Object> extraAttributes
 }

@@ -1,20 +1,20 @@
 package com.taulia.supplier.onboarding.supplier.transport
 
 import com.taulia.supplier.onboarding.supplier.model.Business
-import lombok.Builder
-import lombok.Data
+import groovy.transform.Canonical
+import groovy.transform.builder.Builder
 
-@Data
+@Canonical
 @Builder
 class BusinessDto {
-    private String name
-    private String tradeNames
-    private Business.Type type
-    private String priorNameOrLocation
-    private String products
-    private String countryCode
-    private String regionCode
-    private Boolean accuracyConfirmed
-    private String taxIdType
-    private String taxId
+     String name
+     String tradeNames
+     Business.Type type
+     String priorNameOrLocation
+     String products
+     String countryCode
+     String regionCode
+     Boolean accuracyConfirmed
+     String taxIdType
+     String taxId
 }

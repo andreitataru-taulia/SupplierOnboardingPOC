@@ -1,34 +1,32 @@
 package com.taulia.supplier.onboarding.supplier.model
 
-import lombok.*
+import groovy.transform.Canonical
+import groovy.transform.builder.Builder
 import org.hibernate.Hibernate
 
 import javax.persistence.Embeddable
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 
-@Getter
-@Setter
+@Canonical
 @Builder
-@ToString
 @Embeddable
-@AllArgsConstructor
 class Business {
-    private String name
-    private String tradeNames
+    String name
+    String tradeNames
 
     @Enumerated(EnumType.STRING)
-    private Type type
+    Type type
 
-    private String priorNameOrLocation
-    private String products
-    private String countryCode
-    private String regionCode
-    private Boolean accuracyConfirmed
+    String priorNameOrLocation
+    String products
+    String countryCode
+    String regionCode
+    Boolean accuracyConfirmed
 
     // todo move to enum and its own object
-    private String taxIdType
-    private String taxId
+    String taxIdType
+    String taxId
 
 
     enum Type {

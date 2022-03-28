@@ -1,7 +1,7 @@
 package com.taulia.supplier.onboarding.supplier
 
 import com.taulia.supplier.onboarding.supplier.model.Supplier
-import lombok.RequiredArgsConstructor
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -9,9 +9,13 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 class SupplierService {
     private final SupplierRepository supplierRepository
+
+    @Autowired
+    SupplierService(SupplierRepository supplierRepository) {
+        this.supplierRepository = supplierRepository
+    }
 
     Supplier save(Supplier supplier) {
         return supplierRepository.save(supplier)
@@ -21,7 +25,7 @@ class SupplierService {
         return supplierRepository
                 .findById(userId)
                 .map(existingSupplier -> merge(existingSupplier, supplier))
-                .map(supplierRepository::save)
+                .map(supplierRepository::save) as Optional<Supplier>
     }
 
     Optional<Supplier> findById(UUID id) {
