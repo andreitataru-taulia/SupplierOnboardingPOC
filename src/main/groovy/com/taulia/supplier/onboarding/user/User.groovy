@@ -2,8 +2,7 @@ package com.taulia.supplier.onboarding.user
 
 import com.taulia.supplier.onboarding.supplier.model.Supplier
 import groovy.transform.Canonical
-import lombok.Builder
-import lombok.ToString
+import groovy.transform.builder.Builder
 import org.hibernate.Hibernate
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -19,28 +18,28 @@ import javax.persistence.*
 class User {
 
     @Id
-    private String email
+    String email
 
-    private String firstName
+    String firstName
 
-    private String lastName
+    String lastName
 
     @Enumerated(EnumType.STRING)
-    private Title title
+    Title title
 
     @Version
-    private Long version
+    Long version
 
     @LastModifiedDate
-    private Date lastUpdated
+    Date lastUpdated
 
     @CreatedDate
-    private Date createdDate
+    Date createdDate
 
-    @ToString.Exclude
+//    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", columnDefinition = "BINARY(16)")
-    private Supplier supplier
+    Supplier supplier
 
     enum Title {
         FINANCE_DIRECTOR,

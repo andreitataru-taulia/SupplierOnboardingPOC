@@ -2,7 +2,10 @@ package com.taulia.supplier.onboarding.supplier
 
 import com.taulia.supplier.onboarding.MysqlContainerInitializer
 import com.taulia.supplier.onboarding.TestProfile
+import com.taulia.supplier.onboarding.address.Address
+import com.taulia.supplier.onboarding.supplier.model.Business
 import com.taulia.supplier.onboarding.supplier.model.Supplier
+import com.taulia.supplier.onboarding.user.User
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase

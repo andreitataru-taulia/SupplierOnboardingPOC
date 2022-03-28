@@ -1,6 +1,9 @@
 package com.taulia.supplier.onboarding.supplier
 
+import com.taulia.supplier.onboarding.address.Address
+import com.taulia.supplier.onboarding.supplier.model.Business
 import com.taulia.supplier.onboarding.supplier.model.Supplier
+import com.taulia.supplier.onboarding.user.User
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
@@ -24,10 +27,10 @@ import static org.mockito.Mockito.*
 class SupplierServiceTest {
 
     @Mock
-    private SupplierRepository supplierRepository;
+    private SupplierRepository supplierRepository
 
     @InjectMocks
-    private SupplierService supplierService;
+    private SupplierService supplierService
 
     @Test
     void save() {
@@ -65,27 +68,27 @@ class SupplierServiceTest {
                         .createdDate(Date.from(Instant.now()))
                         .lastUpdated(Date.from(Instant.now()))
                         .version(0L)
-                        .build();
-        var supplierArgumentCaptor = ArgumentCaptor.forClass(Supplier.class);
+                        .build()
+        var supplierArgumentCaptor = ArgumentCaptor.forClass(Supplier.class)
 
-        when(supplierRepository.save(any(Supplier.class))).thenReturn(supplier);
+        when(supplierRepository.save(any(Supplier.class))).thenReturn(supplier)
 
         // when
-        var expectedSupplier = supplierService.save(supplier);
+        var expectedSupplier = supplierService.save(supplier)
 
         // then
-        assertNotNull(expectedSupplier);
-        assertEquals(expectedSupplier, supplier);
+        assertNotNull(expectedSupplier)
+        assertEquals(expectedSupplier, supplier)
 
-        verify(supplierRepository, times(1)).save(supplierArgumentCaptor.capture());
-        assertEquals(supplier, supplierArgumentCaptor.getValue());
+        verify(supplierRepository, times(1)).save(supplierArgumentCaptor.capture())
+        assertEquals(supplier, supplierArgumentCaptor.getValue())
     }
 
     @Test
     //todo need to check this again
     void update() {
         // given
-        var supplierId = UUID.randomUUID();
+        var supplierId = UUID.randomUUID()
 
         var oldSupplier =
                 Supplier.builder()
@@ -120,7 +123,7 @@ class SupplierServiceTest {
                         .createdDate(Date.from(Instant.now()))
                         .lastUpdated(Date.from(Instant.now()))
                         .version(0L)
-                        .build();
+                        .build()
 
         var newSupplier =
                 Supplier.builder()
@@ -155,36 +158,36 @@ class SupplierServiceTest {
                         .createdDate(Date.from(Instant.now()))
                         .lastUpdated(Date.from(Instant.now()))
                         .version(1L)
-                        .build();
+                        .build()
 
-        var supplierArgumentCaptor = ArgumentCaptor.forClass(Supplier.class);
-        var uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
+        var supplierArgumentCaptor = ArgumentCaptor.forClass(Supplier.class)
+        var uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class)
 
-        when(supplierRepository.findById(any(UUID.class))).thenReturn(Optional.of(oldSupplier));
-        when(supplierRepository.save(any(Supplier.class))).thenReturn(newSupplier);
+        when(supplierRepository.findById(any(UUID.class))).thenReturn(Optional.of(oldSupplier))
+        when(supplierRepository.save(any(Supplier.class))).thenReturn(newSupplier)
 
 
         // when
-        var updatedSupplier = supplierService.update(supplierId, newSupplier);
+        var updatedSupplier = supplierService.update(supplierId, newSupplier)
 
         // then
-        assertNotNull(updatedSupplier);
+        assertNotNull(updatedSupplier)
 
-        verify(supplierRepository, times(1)).findById(uuidArgumentCaptor.capture());
-        verify(supplierRepository, times(1)).save(supplierArgumentCaptor.capture());
+        verify(supplierRepository, times(1)).findById(uuidArgumentCaptor.capture())
+        verify(supplierRepository, times(1)).save(supplierArgumentCaptor.capture())
 
-        assertEquals(supplierArgumentCaptor.getValue().getId(), supplierId);
-        assertEquals(supplierArgumentCaptor.getValue().getAddresses(), newSupplier.getAddresses());
-        assertEquals(supplierArgumentCaptor.getValue().getAuthorisedSigners(), newSupplier.getAuthorisedSigners());
-        assertEquals(supplierArgumentCaptor.getValue().getBusiness(), newSupplier.getBusiness());
-        assertEquals(supplierArgumentCaptor.getValue().getExtraAttributes(), newSupplier.getExtraAttributes());
-        assertEquals(supplierArgumentCaptor.getValue().getAddresses(), oldSupplier.getAddresses());
+        assertEquals(supplierArgumentCaptor.getValue().getId(), supplierId)
+        assertEquals(supplierArgumentCaptor.getValue().getAddresses(), newSupplier.getAddresses())
+        assertEquals(supplierArgumentCaptor.getValue().getAuthorisedSigners(), newSupplier.getAuthorisedSigners())
+        assertEquals(supplierArgumentCaptor.getValue().getBusiness(), newSupplier.getBusiness())
+        assertEquals(supplierArgumentCaptor.getValue().getExtraAttributes(), newSupplier.getExtraAttributes())
+        assertEquals(supplierArgumentCaptor.getValue().getAddresses(), oldSupplier.getAddresses())
     }
 
     @Test
     void findById() {
         // given
-        var id = UUID.randomUUID();
+        var id = UUID.randomUUID()
         var supplier =
                 Supplier.builder()
                         .id(id)
@@ -218,20 +221,20 @@ class SupplierServiceTest {
                         .createdDate(Date.from(Instant.now()))
                         .lastUpdated(Date.from(Instant.now()))
                         .version(0L)
-                        .build();
-        var uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
+                        .build()
+        var uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class)
 
-        when(supplierRepository.findById(any(UUID.class))).thenReturn(Optional.of(supplier));
+        when(supplierRepository.findById(any(UUID.class))).thenReturn(Optional.of(supplier))
 
         // when
-        var expectedSupplier = supplierService.findById(id);
+        var expectedSupplier = supplierService.findById(id)
 
         // then
-        assertNotNull(expectedSupplier);
-        assertEquals(expectedSupplier.stream().findFirst().orElseThrow(), supplier);
+        assertNotNull(expectedSupplier)
+        assertEquals(expectedSupplier.stream().findFirst().orElseThrow(), supplier)
 
-        verify(supplierRepository, times(1)).findById(uuidArgumentCaptor.capture());
-        assertEquals(id, uuidArgumentCaptor.getValue());
+        verify(supplierRepository, times(1)).findById(uuidArgumentCaptor.capture())
+        assertEquals(id, uuidArgumentCaptor.getValue())
     }
 
     @Test
@@ -270,25 +273,25 @@ class SupplierServiceTest {
                         .createdDate(Date.from(Instant.now()))
                         .lastUpdated(Date.from(Instant.now()))
                         .version(0L)
-                        .build();
-        var pagedRequest = PageRequest.of(0, 10);
-        Page<Supplier> pagedResponse = new PageImpl<>(List.of(supplier));
-        var pageArgumentCaptor = ArgumentCaptor.forClass(Pageable.class);
+                        .build()
+        var pagedRequest = PageRequest.of(0, 10)
+        Page<Supplier> pagedResponse = new PageImpl<>(List.of(supplier))
+        var pageArgumentCaptor = ArgumentCaptor.forClass(Pageable.class)
 
-        when(supplierRepository.findAll(any(PageRequest.class))).thenReturn(pagedResponse);
+        when(supplierRepository.findAll(any(PageRequest.class))).thenReturn(pagedResponse)
 
         // when
-        var expectedSuppliersPaginated = supplierService.getAllSuppliersPaginated(pagedRequest);
+        var expectedSuppliersPaginated = supplierService.getAllSuppliersPaginated(pagedRequest)
 
         // then
-        assertNotNull(expectedSuppliersPaginated);
-        assertEquals(1L, expectedSuppliersPaginated.getTotalPages());
-        assertEquals(1L, expectedSuppliersPaginated.getTotalElements());
-        assertEquals(List.of(supplier), expectedSuppliersPaginated.getContent());
+        assertNotNull(expectedSuppliersPaginated)
+        assertEquals(1L, expectedSuppliersPaginated.getTotalPages())
+        assertEquals(1L, expectedSuppliersPaginated.getTotalElements())
+        assertEquals(List.of(supplier), expectedSuppliersPaginated.getContent())
         assertEquals(
-                supplier, expectedSuppliersPaginated.getContent().stream().findFirst().orElseThrow());
+                supplier, expectedSuppliersPaginated.getContent().stream().findFirst().orElseThrow())
 
-        verify(supplierRepository, times(1)).findAll(pageArgumentCaptor.capture());
-        assertEquals(pagedRequest, pageArgumentCaptor.getValue());
+        verify(supplierRepository, times(1)).findAll(pageArgumentCaptor.capture())
+        assertEquals(pagedRequest, pageArgumentCaptor.getValue())
     }
 }

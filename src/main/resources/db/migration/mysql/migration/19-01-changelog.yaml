@@ -1,0 +1,215 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1647695333877-1
+      author: andrei.tataru (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_tab_address
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  name: country_code
+                  type: VARCHAR(255)
+              - column:
+                  name: region_code
+                  type: VARCHAR(255)
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+              - column:
+                  name: zip_code
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  name: last_updated
+                  type: DATETIME
+              - column:
+                  name: created_date
+                  type: DATETIME
+              - column:
+                  name: supplier_id
+                  type: BINARY(16)
+            tableName: tab_address
+  - changeSet:
+      id: 1647695333877-2
+      author: andrei.tataru (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: address_id
+                  type: BINARY(16)
+              - column:
+                  name: address_lines
+                  type: VARCHAR(255)
+            tableName: tab_address_address_lines
+  - changeSet:
+      id: 1647695333877-3
+      author: andrei.tataru (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_tab_documents
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: file_name
+                  type: VARCHAR(255)
+              - column:
+                  name: file_size
+                  type: BIGINT
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  name: last_updated
+                  type: DATETIME
+              - column:
+                  name: created_date
+                  type: DATETIME
+            tableName: tab_documents
+  - changeSet:
+      id: 1647695333877-4
+      author: andrei.tataru (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_tab_suppliers
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  name: extra_attributes
+                  type: json
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  name: last_updated
+                  type: DATETIME
+              - column:
+                  name: created_date
+                  type: DATETIME
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: trade_names
+                  type: VARCHAR(255)
+              - column:
+                  name: type
+                  type: VARCHAR(255)
+              - column:
+                  name: prior_name_or_location
+                  type: VARCHAR(255)
+              - column:
+                  name: products
+                  type: VARCHAR(255)
+              - column:
+                  name: country_code
+                  type: VARCHAR(255)
+              - column:
+                  name: region_code
+                  type: VARCHAR(255)
+              - column:
+                  name: accuracy_confirmed
+                  type: BOOLEAN
+              - column:
+                  name: tax_id_type
+                  type: VARCHAR(255)
+              - column:
+                  name: tax_id
+                  type: VARCHAR(255)
+            tableName: tab_suppliers
+  - changeSet:
+      id: 1647695333877-5
+      author: andrei.tataru (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_tab_users
+                  name: email
+                  type: VARCHAR(255)
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  name: last_updated
+                  type: DATETIME
+              - column:
+                  name: created_date
+                  type: DATETIME
+              - column:
+                  name: supplier_id
+                  type: BINARY(16)
+            tableName: tab_users
+  - changeSet:
+      id: 1647695333877-6
+      author: andrei.tataru (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: supplier_id
+            baseTableName: tab_address
+            constraintName: FK_TAB_ADDRESS_ON_SUPPLIER
+            referencedColumnNames: id
+            referencedTableName: tab_suppliers
+  - changeSet:
+      id: 1647695333877-7
+      author: andrei.tataru (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: supplier_id
+            baseTableName: tab_users
+            constraintName: FK_TAB_USERS_ON_SUPPLIER
+            referencedColumnNames: id
+            referencedTableName: tab_suppliers
+  - changeSet:
+      id: 1647695333877-8
+      author: andrei.tataru (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: address_id
+            baseTableName: tab_address_address_lines
+            constraintName: fk_tab_address_address_lines_on_address
+            referencedColumnNames: id
+            referencedTableName: tab_address

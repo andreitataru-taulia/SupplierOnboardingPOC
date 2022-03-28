@@ -1,6 +1,7 @@
 package com.taulia.supplier.onboarding.document
 
-import lombok.*
+import groovy.transform.Canonical
+import groovy.transform.builder.Builder
 import org.hibernate.Hibernate
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.annotation.CreatedDate
@@ -10,11 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import javax.persistence.*
 
 @Entity
-@Getter
-@Setter
 @Builder
-@ToString
-@AllArgsConstructor
+@Canonical
 @Table(name = "tab_documents")
 @EntityListeners(AuditingEntityListener.class)
 class Document {
