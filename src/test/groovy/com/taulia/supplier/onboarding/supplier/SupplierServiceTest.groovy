@@ -278,7 +278,7 @@ class SupplierServiceTest {
         Page<Supplier> pagedResponse = new PageImpl<>(List.of(supplier))
         var pageArgumentCaptor = ArgumentCaptor.forClass(Pageable.class)
 
-        when(supplierRepository.findAll(any(PageRequest.class))).thenReturn(pagedResponse)
+        when(supplierRepository.findAll(any(PageRequest.class) as PageRequest)).thenReturn(pagedResponse)
 
         // when
         var expectedSuppliersPaginated = supplierService.getAllSuppliersPaginated(pagedRequest)
@@ -291,7 +291,7 @@ class SupplierServiceTest {
         assertEquals(
                 supplier, expectedSuppliersPaginated.getContent().stream().findFirst().orElseThrow())
 
-        verify(supplierRepository, times(1)).findAll(pageArgumentCaptor.capture())
+        verify(supplierRepository, times(1)).findAll(pageArgumentCaptor.capture() as PageRequest)
         assertEquals(pagedRequest, pageArgumentCaptor.getValue())
     }
 }
