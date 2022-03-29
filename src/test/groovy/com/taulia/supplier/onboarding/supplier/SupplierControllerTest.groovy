@@ -34,6 +34,7 @@ class SupplierControllerTest {
     @Test
     void update() {}
 
+    //todo add more tests for all scenarios this is just a template
     @Test
     void getAllSuppliersPaginated() throws Exception {
         // given
@@ -51,7 +52,7 @@ class SupplierControllerTest {
                                 //                    .content(birthday)
                                 //                    .contentType(MediaType.APPLICATION_JSON)
                                         .accept(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk())
+                        .andExpect(status().isUnauthorized())
                         .andReturn();
         // then
         String resultDOW = result.getResponse().getContentAsString();
