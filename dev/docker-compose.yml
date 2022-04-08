@@ -33,11 +33,11 @@ services:
     networks:
       - protal-net
     environment:
-      - MYSQL_USER=example-user
-      - MYSQL_PASSWORD=my_cool_secret
+      - MYSQL_DATABASE=backend
+      - MYSQL_USER=backend
+      - MYSQL_PASSWORD=password
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       #      - MYSQL_ROOT_PASSWORD=my-secret-pw
-      - MYSQL_DATABASE=taulia
 
   mysql5:
     platform: linux/amd64
