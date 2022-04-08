@@ -21,7 +21,7 @@ repositories {
 
 ext {
     set("groovy.version", "3.0.10")
-    mapstruct = "1.5.0.Beta2"
+    mapstruct = "1.4.2.Final"
     mapstructLombok = "0.2.0"
     openapi = "1.6.6"
     logback = "0.1.5"
@@ -31,11 +31,18 @@ ext {
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-actuator"
-//    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+
+    implementation group: 'org.everit.json', name: 'org.everit.json.schema', version: '1.5.1'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
+
+//    implementation group: 'io.rest-assured', name: 'json-schema-validator', version: '5.0.0'
+
 //    implementation "org.springframework.data:spring-data-elasticsearch"
 //    implementation "org.springframework.boot:spring-boot-starter-data-cassandra"
-    implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
-    implementation "org.springframework.boot:spring-boot-starter-hateoas"
+//    implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
+    implementation "org.springframewo" +
+            "rk.boot:spring-boot-starter-hateoas"
     implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-webflux"
@@ -52,7 +59,7 @@ dependencies {
     implementation "net.logstash.logback:logstash-logback-encoder:${logbackEncoder}"
     implementation "org.mapstruct:mapstruct:${mapstruct}"
     implementation "org.projectlombok:lombok-mapstruct-binding:${mapstructLombok}"
-    implementation "no.finn.unleash:unleash-client-java:${unleash}"
+//    implementation "no.finn.unleash:unleash-client-java:${unleash}"
     implementation "org.flywaydb:flyway-core"
 
     implementation 'com.github.saasquatch:json-schema-inferrer:0.1.4'
@@ -73,7 +80,7 @@ dependencies {
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     annotationProcessor "org.projectlombok:lombok"
-    annotationProcessor "org.mapstruct:mapstruct-processor:1.5.0.Beta2"
+    annotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation 'org.testng:testng:7.5', "org.easytesting:fest-assert:1.4"

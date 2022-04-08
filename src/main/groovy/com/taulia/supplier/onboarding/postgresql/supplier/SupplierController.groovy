@@ -12,7 +12,7 @@ package com.taulia.supplier.onboarding.postgresql.supplier
 //import org.springframework.web.bind.annotation.GetMapping
 //import org.springframework.web.bind.annotation.RestController
 //
-//@RestController("api/suppliers")
+//@RestController("api/suppliers//////////////////")
 //@RequiredArgsConstructor
 //class SupplierController {
 //
