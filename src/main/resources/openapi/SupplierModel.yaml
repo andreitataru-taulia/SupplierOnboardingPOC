@@ -52,135 +52,66 @@ components:
         id:
           type: string
           format: uuid
-        registration:
-          $ref: '#/components/schemas/Registration'
-        companyInformation:
-          $ref: '#/components/schemas/CompanyInformation'
-        contactInformation:
-          $ref: '#/components/schemas/ContactInformation'
-        uploadCompanyDocuments:
-          $ref: '#/components/schemas/UploadCompanyDocuments'
-
-
-    Registration:
-      type: object
-      properties:
         programName:
           type: string
         supplierCompanyLegalName:
           type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        title:
-          type: string
-        email:
-          type: string
-        phoneNumber:
-          type: string
-        faxNumber:
-          type: string
-    CompanyInformation:
-      type: object
-      properties:
-        customerName:
-          type: string
-        country:
-          type: string
-        state:
-          type: string
-        supplierCompanyLegalName:
-          type: string
-        priorNamesOrPlaces:
-          type: string
-        tradeBussiness:
-          type: string
-        taxIdNumber:
-          type: string
-        organizationNumber:
-          type: string
-        invoiceCurrency:
-          type: string
-        estimatedAnnualSalesCurrency:
-          type: string
-        estimatedAnnualSalesVolume:
-          type: string
-        currentPaymentTerm:
-          type: string
-        newPaymentTerm:
-          type: string
-        sendSCFPayments:
-          type: boolean
-        isSecurityInterest:
-          type: boolean
-        lienHolderName:
-          type: string
-        lienHolderAddress:
-          type: string
-        isSplitPaymentMechanismInPoland:
-          type: string
-        activeVATPayerInPoland:
-          type: string
-        bankAccountNumberReportedToPolishTax:
-          type: string
-        isObligatorySplitPaymentMechanism:
-          type: string
-        addressForLegalNotices:
-          $ref: '#/components/schemas/AddressForLegalNotices'
-        buyerProducts:
-          type: string
-        consistentSales:
-          type: boolean
-        onTimePayments:
-          type: boolean
-        averageinvoiceAmountUSD:
-          type: string
-        companySale:
+        intialContact:
           type: array
           items:
-            $ref: '#/components/schemas/CompanySale'
-    CompanySale:
+            $ref: '#/components/schemas/InitialContact'
+        additionalContact:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalContact'
+        programEnglishName:
+          type: string
+        incorporationCountryCode:
+          type: string
+        incorporationState:
+          type: string
+        incorporationTerritory:
+          type: string
+        invoiceCurrencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceCurrencies'
+        tradeOrDBANames:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeOrDBANames'
+        organizationType:
+          type: number
+        taxId:
+          type: string
+        estimatedAnnualSales:
+          type: array
+          items:
+            $ref: '#/components/schemas/EstimatedAnnualSales'
+        lienInterestReqCheck:
+          type: boolean
+        lienDetails:
+          type: string
+        supplierPolandInfo:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierPolandInfo'
+        companyAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyAddresses'
+        authorizedSigners:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorizedSigners'
+        discountElection:
+          type: string
+        numberOfAuthorizedSigners:
+          type: integer
+
+    AuthorizedSigners:
       type: object
       properties:
-        name:
-          type: string
-        annualSales:
-          type: string
-    AddressForLegalNotices:
-      type: object
-      properties:
-        addressLine1:
-          type: string
-        addressLine2:
-          type: string
-        addressLine3:
-          type: string
-        country:
-          type: string
-        state:
-          type: string
-        province:
-          type: string
-        city:
-          type: string
-        zipCode:
-          type: string
-        postCode:
-          type: string
-        attentionName:
-          type: string
-        email:
-          type: string
-        phoneNumber:
-          type: string
-    ContactInformation:
-      type: object
-      properties:
-        contactRole:
-          type: string
-        authorizedSigner:
-          type: string
         firstName:
           type: string
         lastName:
@@ -189,18 +120,92 @@ components:
           type: string
         emailAddress:
           type: string
+        phoneNumber:
+          type: string
         manageAccess:
+          type: boolean
+    CompanyAddresses:
+      type: object
+      properties:
+        addressType:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        country:
+          type: string
+        state:
+          type: string
+        city:
+          type: string
+        zipCode:
+          type: string
+        phone:
+          type: string
+        attention:
+          type: string
+    SupplierPolandInfo:
+      type: object
+      properties:
+        splitPaymentCheck:
+          type: boolean
+        activeVatPayer:
+          type: boolean
+        bankAccNumForPolishTaxReg:
+          type: string
+        polishVatSplitPayment:
+          type: boolean
+    EstimatedAnnualSales:
+      type: object
+      properties:
+        salesCurrencyCode:
+          type: string
+        annualSalesVolume:
+          type: number
+        currentPaymentTerms:
+          type: string
+        productsServices:
+          type: string
+    TradeOrDBANames:
+      type: object
+      properties:
+        companyName:
+          type: string
+    InvoiceCurrencies:
+      type: object
+      properties:
+        primaryInvoiceCurrency:
+          type: string
+        otherInvoiceCurrency:
+          type: string
+    InitialContact:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        title:
+          type: string
+        emailAddress:
           type: string
         phoneNumber:
           type: string
-        faxNumber:
+        manageAccess:
           type: string
-    UploadCompanyDocuments:
-      type:
-        object
+    AdditionalContact:
+      type: object
       properties:
-        discountElection:
+        firstName:
           type: string
-        authorizedSignerNo:
+        lastName:
           type: string
-
+        title:
+          type: string
+        emailAddress:
+          type: string
+        phoneNumber:
+          type: string
+        manageAccess:
+          type: boolean
